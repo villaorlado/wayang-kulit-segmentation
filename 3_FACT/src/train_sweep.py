@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
     BASE = get_project_base()
 
-    cfg = 
+    # cfg = 
 
     
     try:
