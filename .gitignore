@@ -2,3 +2,6 @@ data/thumbnails/*
 data/videos/*
 data/model_weights/*
 data/*.csv
+data/prediction_visualisations/*
+data/prediction_results/*
+
