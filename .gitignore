@@ -1,3 +1,4 @@
 data/thumbnails/*
 data/videos/*
+data/model_weights/*
 data/*.csv
