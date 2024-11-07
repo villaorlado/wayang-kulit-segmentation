@@ -6,7 +6,7 @@ Over here, the repository contains our adaptation of the FACT architecture. Note
 # Inference
 For inference, 
 
-1. Download the model weights from [https://huggingface.co/wootoonooyoo/wayangkulit-segmentation/tree/main](here).
+1. Download the model weights from [https://huggingface.co/shawnliewhongwei/wayangkulit-segmentation/tree/main](here).
 2. Run the command (adjust the location of the model weights if necessary)
 ```bash
 python3 -m.src --cfg_path "../../data/model_logs/split1_args.json" --thumbnails_path "../../data/thumbnails_npy/thumbnails_60secsPerFrame_320px240px" --mapping_path "../../data/model_logs/class_mapping.txt" --weights_path "../../data/model_weights/split1_network.iter-32.net" --output_json_path "../../data/prediction_results/07nov_preds.json"

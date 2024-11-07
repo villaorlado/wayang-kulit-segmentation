@@ -23,7 +23,7 @@ python3 thumbnails_extractor.py --data_dir "../../data" --seconds_between_frames
 ```
 3. Go to *data/model_weights*, download the model weights using
 ```bash
-wget https://huggingface.co/wootoonooyoo/wayangkulit-segmentation/resolve/main/split1_network.iter-32.net
+wget https://huggingface.co/shawnliewhongwei/wayangkulit-segmentation/resolve/main/split1_network.iter-32.net
 ```
 4. Go to *src/4_fact*, run
 ```bash
