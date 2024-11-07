@@ -1,1 +1,0 @@
-python3 -m src.train --cfg src/configs/wayangkulit_binary_nofeatures.yaml --set aux.gpu 0 split "split1";
