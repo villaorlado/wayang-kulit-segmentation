@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ```
 
 # Quick guide for inference
-1. Place your video in *data/videos/*
+1. Place your videos in *data/videos/*
 2. From *src/2_thumbnails_extractor*, run
 ```bash
 python3 thumbnails_extractor.py --data_dir "../../data" --seconds_between_frames 60 --resolution 320 240
