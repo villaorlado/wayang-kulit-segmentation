@@ -55,11 +55,11 @@ do
       echo "Column 1: $count_id"
       echo "Column 2: $url"
       # echo "Column 3: $video_title"
-      video_id = ${url##*v=}
+      video_id=${url##*v=}
       echo "Video ID: $video_id"
 
       # Download the videos with video_id as identifier
-      yt-dlp --output "$2/${video_id}.%(ext)s" -f bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b --limit-rate 4.0M --sleep-interval 70 --max-sleep-interval 5 ${url}
+      yt-dlp --output "$2/${video_id}.%(ext)s" -f bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b --limit-rate 3.0M --sleep-interval 70 --max-sleep-interval 80 ${url}
 
    fi
 

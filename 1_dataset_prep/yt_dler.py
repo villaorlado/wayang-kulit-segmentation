@@ -8,7 +8,7 @@ We shall discard irrelevant columns for easier management of each row of the dat
 """
 
 # Read the CSV file
-data = pd.read_csv("sample_to_download.csv")
+data = pd.read_csv("top_25_channels.csv")
 data_array = data.to_dict(orient='records')
 
 # Only keep the relevant columns
