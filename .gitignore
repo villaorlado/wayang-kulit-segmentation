@@ -5,3 +5,4 @@ data/*.csv
 data/prediction_visualisations/*
 data/prediction_results/*
 
+.DS_Store
