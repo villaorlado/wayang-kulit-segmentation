@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import torch
 from .models.blocks import FACT 
 from .utils.dataset import create_test_dataset, DataLoader
@@ -10,6 +11,7 @@ from .configs.utils import int2float_check, _get_var
 from tqdm import tqdm
 from yacs.config import CfgNode
 
+import gc
 
 def read_args_json_file(args_json_file):
 
@@ -46,7 +48,8 @@ def eval_video(cfg_path:str,
                thumbnails_dir:str,
                mapping_path:str,
                weights_path:str,
-               output_json_path:str):
+               output_json_path:str,
+               overwrite_output_json:bool):
     """
     Performs the inference on the thumbnails of every video in the target directory
 
@@ -55,11 +58,21 @@ def eval_video(cfg_path:str,
         weights_path: path to the model weights
 
         output_json_path: path to the json file where the predictions will be saved
+        overwrite_output_json: true to overwrite existing file
 
         thumbnails_npy_path: path to the thumbnails npy file
         mapping_path: path to the class mapping file
     """
 
+    # Check if output file exists
+    if os.path.isfile(f"{output_json_path}") == True:
+
+        if overwrite_output_json == True:
+            with open(f"{output_json_path}", 'w') as file:
+                json.dump({}, file)
+        else:
+            raise FileExistsError("File already exists")
+    
     # Read config file
     cfg = read_args_json_file(cfg_path)
     test_dataset = create_test_dataset(cfg, thumbnails_dir, mapping_path)
@@ -81,16 +94,17 @@ def eval_video(cfg_path:str,
     test_loader = DataLoader(test_dataset, 1, shuffle=False)
 
     # Get predictions
-    all_results = {}
-    for vname, batch_seq, train_label_list, _ in tqdm(test_loader):
+    for vname, batch_seq, train_label_list, _ in test_loader:
 
         # Perform the predictions
         seq_list = [s.to(device) for s in batch_seq]
         train_label_list = [s.to(device) for s in train_label_list]
         video_saves = model(seq_list, train_label_list)
-
+        
         print(f"Predicted {vname[0]}")
+
         # Save the predictions
+        all_results = {}
         local_results = {}
         pred_array = []
         for pred in video_saves[0]['pred']:
@@ -98,10 +112,18 @@ def eval_video(cfg_path:str,
         local_results["pred"] = pred_array
         all_results[vname[0]] = local_results
 
-    # Writing to output_file
-    json_object = json.dumps(all_results, indent=4)
-    with open(f"{output_json_path}", "w") as outfile:
-        outfile.write(json_object)
+        # Update the existing JSON file
+        with open(f"{output_json_path}", 'r') as file:
+            data = json.load(file)
+
+        data.update(all_results)
+
+        with open(f"{output_json_path}", 'w') as file:
+            json.dump(data, file, indent=4)
+
+        # Garbage collect
+        gc.collect()
+
     print(f"Saved predictions to {output_json_path}")
 
 if __name__ == "__main__":
@@ -112,7 +134,8 @@ if __name__ == "__main__":
     parser.add_argument("--mapping_path", type=str, required=True, help="path to the class mapping file")
     parser.add_argument("--weights_path", type=str, required=True, help="path to the model weights")
     parser.add_argument("--results_output_path", type=str, required=True, help="path to output the results file")
-
+    parser.add_argument('--overwrite_output_json', action='store_true')
+    
     args = parser.parse_args()
 
-    eval_video(args.cfg_path, args.thumbnails_dir, args.mapping_path, args.weights_path, args.results_output_path)
+    eval_video(args.cfg_path, args.thumbnails_dir, args.mapping_path, args.weights_path, args.results_output_path, args.overwrite_output_json)

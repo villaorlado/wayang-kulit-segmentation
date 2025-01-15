@@ -24,6 +24,9 @@ def load_feature(feature_dir, video, transpose):
 
 def load_thumbnails(thumbnails_parent_dir, video_id, transpose):
 
+    print(thumbnails_parent_dir)
+    print(video_id)
+
     # Get list of thumbnails in specific directory
     thumbnails = os.listdir(f"{thumbnails_parent_dir}/{video_id}")
     thumbnails.sort()
@@ -190,8 +193,7 @@ def create_test_dataset(cfg:CfgNode, thumbnails_dir:str, mapping_path:str):
     
     # List all files in the thumbnails_dir
     test_video_list = os.listdir(thumbnails_dir)
-    # test_video_list = [filename[:-4] for filename in test_video_list]
-    # test_video_list = [name for name in os.listdir(thumbnails_dir) if os.path.isdir(os.path.join(thumbnails_dir, name))]
+    test_video_list = [dirs for dirs in test_video_list if not dirs.startswith('.')]
 
     test_dataset = Dataset(test_video_list, nclasses, load_video, bg_class)
     test_dataset.label2index = label2index
@@ -204,17 +206,18 @@ BASE = "../"
 def create_dataset(cfg: CfgNode):
 
     if cfg.dataset == "wayangkulit_binary_nofeatures":
-        map_fname = BASE + '/src/4_fact/class_mapping.txt'
+        map_fname = "../../data/labelling_results/labellingResults_60secsPerFrame_160px120px/mapping.txt"
         # dataset_path = BASE + 'data/thumbnails/'
-        train_split_fname = BASE + f'/src/4_fact/train.{cfg.split}.bundle'
-        test_split_fname = BASE + f'/src/4_fact/test.{cfg.split}.bundle'
-        feature_path = BASE + '/data/thumbnails_npy/thumbnails_60secsPerFrame_320px240px'
+        train_split_fname = "../../data/training_splits/train.1.bundle"
+        test_split_fname = "../../data/training_splits/test.1.bundle"
+        thumbnails_dir = '../../data/thumbnails/thumbnails_60secsPerFrame_160px120px'
 
         # map_fname = BASE + 'data/wayangkulit_binary_nofeatures/mapping.txt'
         # dataset_path = BASE + 'data/wayangkulit_binary_nofeatures/'
         # train_split_fname = BASE + f'data/wayangkulit_binary_nofeatures/splits/train.{cfg.split}.bundle'
         # test_split_fname = BASE + f'data/wayangkulit_binary_nofeatures/splits/test.{cfg.split}.bundle'
         # feature_path = BASE + 'data/wayangkulit_binary_nofeatures/features'
+
         feature_transpose = False
         average_transcript_len = 2.0
         bg_class = [0] 
@@ -235,7 +238,7 @@ def create_dataset(cfg: CfgNode):
 
     ################################################
     ################################################
-    print("Loading Feature from", feature_path)
+    print("Loading Thumbnails from", thumbnails_dir)
     print("Loading Label from", groundTruth_path)
 
     label2index, index2label = load_action_mapping(map_fname)
@@ -248,7 +251,9 @@ def create_dataset(cfg: CfgNode):
             feature, label_for_training, label_for_evaluation
     """
     def load_video(vname):
-        feature = load_feature(feature_path, vname, feature_transpose) # should be T x D or T x D x H x W
+        # feature = load_feature(feature_path, vname, feature_transpose) # should be T x D or T x D x H x W
+        print(thumbnails_dir)
+        feature = load_thumbnails(thumbnails_dir, vname, feature_transpose)
 
         # Handle in the case of infer only
         if groundTruth_path == "":

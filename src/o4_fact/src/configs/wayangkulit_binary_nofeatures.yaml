@@ -78,4 +78,3 @@ optimizer: Adam
 split: split1
 sr: 1
 weight_decay: 0.0
-wandb_proj_name: wayangkulit_binary_nofeatures
