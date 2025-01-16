@@ -65,13 +65,11 @@ def eval_video(cfg_path:str,
     """
 
     # Check if output file exists
-    if os.path.isfile(f"{output_json_path}") == True:
-
-        if overwrite_output_json == True:
-            with open(f"{output_json_path}", 'w') as file:
-                json.dump({}, file)
-        else:
-            raise FileExistsError("File already exists")
+    if os.path.isfile(f"{output_json_path}") == True and overwrite_output_json == False:
+        raise FileExistsError("File already exists")
+    else:
+        with open(f"{output_json_path}", 'w') as file:
+            json.dump({}, file)
     
     # Read config file
     cfg = read_args_json_file(cfg_path)
@@ -122,6 +120,7 @@ def eval_video(cfg_path:str,
             json.dump(data, file, indent=4)
 
         # Garbage collect
+        del seq_list, train_label_list, video_saves
         gc.collect()
 
     print(f"Saved predictions to {output_json_path}")

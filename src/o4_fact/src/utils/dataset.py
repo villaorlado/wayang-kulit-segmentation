@@ -83,7 +83,6 @@ class Dataset(object):
         self.nclasses = nclasses
         self.bg_class = bg_class
         self.data = {}
-        self.data[video_list[0]] = load_video_func(video_list[0])
         self.input_dimension = self.data[video_list[0]][0].shape[1] 
     
     def __str__(self):
@@ -101,10 +100,7 @@ class Dataset(object):
         if video not in self.video_list:
             raise ValueError(video)
 
-        if video not in self.data:
-            self.data[video] = self.load_video(video)
-
-        return self.data[video]
+        return self.load_video(video)
 
     def __len__(self):
         return len(self.video_list)
@@ -142,6 +138,7 @@ class DataLoader():
             raise StopIteration
 
         else:
+            
             video_idx = self.selector[self.index : self.index+self.batch_size]
             if len(video_idx) < self.batch_size:
                 video_idx = video_idx + self.selector[:self.batch_size-len(video_idx)]
@@ -153,10 +150,13 @@ class DataLoader():
             batch_eval_label = []
             for vname in videos:
                 sequence, train_label, eval_label = self.dataset[vname]
-                batch_sequence.append(torch.from_numpy(sequence))
-                batch_train_label.append(torch.LongTensor(train_label))
+                batch_sequence.append(sequence)
+                batch_train_label.append(train_label)
                 batch_eval_label.append(eval_label)
 
+            batch_sequence = np.array(batch_sequence)
+            batch_train_label = np.array(batch_train_label)
+            batch_eval_label = np.array(batch_eval_label)
 
             return videos, batch_sequence, batch_train_label, batch_eval_label
 
