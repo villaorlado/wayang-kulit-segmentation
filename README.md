@@ -17,9 +17,28 @@ pip install -r requirements.txt
 ```
 
 # Quick guide for inference
+
+**If you only have the videos, do the following**
 1. Place your videos in *data/videos/*
 2. Run the script
 ```bash
-bash inference.sh
+bash video_inference.sh
 ```
 3. Check *data/prediction_visualisations* for results
+<em>Note: If you changed the parameters in Step 3.1, the folder names used in Steps 5, 6.1, 6.2 would be different. Do adjust accordingly.</em>
+
+**If you already have the thumbnails, do the following**
+1. Organise the thumbnails in the following manner 
+* data/thumbnails/**thumbnails_dir_name**/**video_id_0**/**thumbnail_0_frame_nb**
+* data/thumbnails/**thumbnails_dir_name**/**video_id_0**/**thumbnail_1_frame_nb**
+* data/thumbnails/**thumbnails_dir_name**/**video_id_0**/**thumbnail_2_frame_nb**
+* data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_0_frame_nb**
+* data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_1_frame_nb**
+* data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_2_frame_nb**
+2. Modify the folder names in Steps 4, 5.1, 5.2
+3. Run the script
+```bash
+bash thumbnails_inference.sh
+```
+4. Check *data/prediction_visualisations* for results
+
