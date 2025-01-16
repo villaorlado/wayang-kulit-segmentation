@@ -25,7 +25,7 @@ pip install -r requirements.txt
 bash video_inference.sh
 ```
 3. Check *data/prediction_visualisations* for results
-<em>Note: If you changed the parameters in Step 3.1, the folder names used in Steps 5, 6.1, 6.2 would be different. Do adjust accordingly.</em>
+<em>Note: If you changed the parameters in Step 3.1, the folder names used in Steps 5, 6.1, 6.2 in **video_inference.sh** would be different. Do adjust accordingly.</em>
 
 **If you already have the thumbnails, do the following**
 1. Organise the thumbnails in the following manner 
@@ -35,7 +35,7 @@ bash video_inference.sh
 * data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_0_frame_nb**
 * data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_1_frame_nb**
 * data/thumbnails/**thumbnails_dir_name**/**video_id_1**/**thumbnail_2_frame_nb**
-2. Modify the folder names in Steps 4, 5.1, 5.2
+2. Modify the folder names in Steps 4, 5.1, 5.2 in **thumbnails_inference.sh**
 3. Run the script
 ```bash
 bash thumbnails_inference.sh
