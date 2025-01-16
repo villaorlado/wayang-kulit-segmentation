@@ -1,7 +1,7 @@
 # Put all your videos in data/videos/ before running this script
 
 # Step 1 - Create necessary directories if they don't exist
-mkdir -p data/videos data/thumbnails data/model_weights data/prediction_results data/prediction_visualisations data/videos_metadata
+mkdir -p data/model_weights data/prediction_metrics data/prediction_results data/prediction_visualisations data/thumbnails data/videos data/videos_metadata
 
 # Step 2 - Install the required packages
 pip install -r requirements.txt
