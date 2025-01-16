@@ -95,12 +95,10 @@ def eval_video(cfg_path:str,
     for vname, batch_seq, train_label_list, _ in test_loader:
 
         # Perform the predictions
-        seq_list = [s.to(device) for s in batch_seq]
-        train_label_list = [s.to(device) for s in train_label_list]
+        seq_list = [torch.from_numpy(s).float().to(device) for s in batch_seq]
+        train_label_list = [torch.LongTensor(s).to(device) for s in train_label_list]
         video_saves = model(seq_list, train_label_list)
         
-        print(f"Predicted {vname[0]}")
-
         # Save the predictions
         all_results = {}
         local_results = {}

@@ -83,7 +83,7 @@ class Dataset(object):
         self.nclasses = nclasses
         self.bg_class = bg_class
         self.data = {}
-        self.input_dimension = self.data[video_list[0]][0].shape[1] 
+        self.input_dimension = load_video_func(video_list[0])[0].shape[1] 
     
     def __str__(self):
         string = "< Dataset %d videos, %d feat-size, %d classes >"
@@ -138,7 +138,6 @@ class DataLoader():
             raise StopIteration
 
         else:
-            
             video_idx = self.selector[self.index : self.index+self.batch_size]
             if len(video_idx) < self.batch_size:
                 video_idx = video_idx + self.selector[:self.batch_size-len(video_idx)]
